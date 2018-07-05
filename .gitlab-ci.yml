@@ -3,7 +3,7 @@ stages:
 
 test:
   stage: test
-  script: flake8 /app/hello.py
+  script: stat /builds/root/hello-world/hello.py
   only:
   - master
 
