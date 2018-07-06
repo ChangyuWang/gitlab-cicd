@@ -10,12 +10,16 @@ zoo:
   script:
   - flake8 /builds/root/hello-world/hello.py
   - yapf -r -d /builds/root/hello-world/hello.py 
+  only:
+  - branches
 
 zoo:
   stage: build
   script:
   - cd /builds/root/hello-world/ && docker build -t hello:$CI_COMMIT_REF_NAME 
   - docker run -d hello:$CI_COMMIT_REF_NAME
+  only:
+    - master
 
 zoo:
   stage: test-ac
