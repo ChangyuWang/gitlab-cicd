@@ -10,8 +10,6 @@ zoo:
   script:
   - flake8 /builds/root/hello-world/hello.py
   - yapf -r -d /builds/root/hello-world/hello.py 
-  only:
-  - pushes
 
 zoo:
   stage: build
