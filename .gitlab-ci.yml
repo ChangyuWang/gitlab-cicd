@@ -20,22 +20,26 @@ zoo-build-job:
   - docker run -d hello:$CI_COMMIT_REF_NAME
   only:
     - master
+    - merge
 
 zoo-testac-job:
   stage: test-ac
   script: echo "actest ok"
   only:
   - master
+  - merge 
 
 zoo-package-job:
   stage: package
   script: echo "push image to repository"
   only:
   - master
+  - merge
 
 zoo-pre-deploy-job:
   stage: pre-deploy
   script: echo "deploy to pre-deploy"
   only:
   - master
+  - merge
 
