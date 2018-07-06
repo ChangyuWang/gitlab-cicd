@@ -1,15 +1,36 @@
 stages:
   - test-ut
+  - build
   - test-ac
+  - package
+  - pre-deploy
 
-test-ut:
+zoo:
   stage: test-ut
   script:
   - flake8 /builds/root/hello-world/hello.py
   - yapf -r -d /builds/root/hello-world/hello.py 
 
-test-ac:
+zoo:
+  stage: build
+  script:
+  - cd /builds/root/hello-world/ && docker build -t hello:$CI_COMMIT_REF_NAME 
+  - docker run -d hello:$CI_COMMIT_REF_NAME
+
+zoo:
   stage: test-ac
-  script: echo "ok" 
+  script: curl 
+  only:
+  - master
+
+zoo:
+  stage: package
+  script: echo "push image to repository"
+  only:
+  - master
+
+zoo:
+  stage: pre-deploy
+  script: echo "deploy to pre-deploy"
   only:
   - master
