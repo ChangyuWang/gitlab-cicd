@@ -11,7 +11,7 @@ zoo:
   - flake8 /builds/root/hello-world/hello.py
   - yapf -r -d /builds/root/hello-world/hello.py 
   only:
-  - branches
+  - pushes
 
 zoo:
   stage: build
