@@ -1,16 +1,15 @@
 stages:
-  - test
+  - test-ut
+  - test-ac
 
 test-ut:
-  stage: test
+  stage: test-ut
   script:
   - flake8 /builds/root/hello-world/hello.py
   - yapf -r -d /builds/root/hello-world/hello.py 
-  only:
-  - master
 
 test-ac:
-  stage: test
+  stage: test-ac
   script: echo "ok" 
   only:
   - master
