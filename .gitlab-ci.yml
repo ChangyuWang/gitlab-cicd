@@ -9,7 +9,7 @@ zoo-testut-job:
   stage: test-ut
   script:
   - flake8 /builds/root/hello-world/hello.py
-  - yapf -r -d /builds/root/hello-world/hello.py
+  - yapf -r -d /builds/root/hello-world
   only:
   - pushes
 
