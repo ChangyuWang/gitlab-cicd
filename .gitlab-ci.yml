@@ -8,9 +8,8 @@ stages:
 zoo-testut-job:
   stage: test-ut
   script:
-  - git clone http://192.168.185.78/root/hello-world.git
-  - flake8 /hello-world/
-  - yapf -r -d  /hello-world
+  - flake8 /root/hello-world/
+  - yapf -r -d  /root/hello-world
   only:
   - pushes
   except:
