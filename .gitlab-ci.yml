@@ -5,7 +5,7 @@ stages:
   - package
   - pre-deploy
 
-zoo-testut-job:
+testut:
   stage: test-ut
   script:
   - flake8 /root/hello-world/
@@ -15,17 +15,17 @@ zoo-testut-job:
   except:
   - master
 
-zoo-build-job:
+build:
   stage: build
   script:
-  - echo $CI_COMMIT_REF_NAME
-  - echo "kubectl create deployment hello-world"
+  - docker build 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
+  - docker push 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
   only:
   - branches
   except:
   - master
 
-zoo-testac-job:
+testac:
   stage: test-ac
   script: echo "actest ok"
   only:
@@ -33,13 +33,13 @@ zoo-testac-job:
   except:
   - master
 
-zoo-package-job:
+upload_package:
   stage: package
   script: echo "push image to repository"
   only:
   - master
 
-zoo-pre-deploy-job:
+pre-deploy:
   stage: pre-deploy
   script: echo "deploy to pre-deploy"
   only:
