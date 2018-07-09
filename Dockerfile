@@ -6,8 +6,7 @@ RUN add-apt-repository \
    $(lsb_release -cs) \
    stable" && apt-get update
 RUN apt-get install -y --force-yes  docker-ce python-pip
-COPY ./daemon /etc/docker/
-RUN pip install -U pip
-RUN pip install flake8
-RUN pip install yapf
+COPY ./daemon.json /etc/docker/
+ADD pip.conf /root/.pip/
+RUN pip install flake8 yapf
 

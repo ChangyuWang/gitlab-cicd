@@ -8,23 +8,29 @@ stages:
 zoo-testut-job:
   stage: test-ut
   script:
-  - flake8 /builds/root/hello-world/hello.py
-  - yapf -r -d /builds/root/hello-world
+  - flake8 /root/hello-world/
+  - yapf -r -d  /root/hello-world
   only:
   - pushes
+  except:
+  - master
 
 zoo-build-job:
   stage: build
   script:
-  - cd /builds/root/hello-world/ && docker build -t hello:$CI_COMMIT_REF_NAME
-  - docker run -d hello:$CI_COMMIT_REF_NAME
+  - echo $CI_COMMIT_REF_NAME
+  - echo "kubectl create deployment hello-world"
   only:
-    - master
+  - branches
+  except:
+  - master
 
 zoo-testac-job:
   stage: test-ac
   script: echo "actest ok"
   only:
+  - branches
+  except:
   - master
 
 zoo-package-job:
@@ -38,4 +44,5 @@ zoo-pre-deploy-job:
   script: echo "deploy to pre-deploy"
   only:
   - master
+  when: manual
 
