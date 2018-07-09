@@ -18,7 +18,7 @@ zoo-testut-job:
 zoo-build-job:
   stage: build
   script:
-  - cd /builds/root/hello-world/ && docker build -t 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME ./
+  - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME ./
   - docker push 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
   - echo "kubectl create deployment hello-world"
   only:
