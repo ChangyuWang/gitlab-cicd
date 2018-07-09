@@ -15,7 +15,7 @@ testut:
   except:
   - master
 
-build:
+build-docker:
   stage: build
   script:
   - docker build 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
