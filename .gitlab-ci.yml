@@ -18,7 +18,6 @@ zoo-testut-job:
 zoo-build-job:
   stage: build
   script:
-  - service docker start
   - echo $CI_COMMIT_REF_NAME
   - echo "kubectl create deployment hello-world"
   only:
