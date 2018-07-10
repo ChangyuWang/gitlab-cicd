@@ -36,7 +36,7 @@ build-docker:
 
 testit:
   stage: test-it
-  image: 192.168.185.78:5000/hello:ut
+  image: 192.168.185.78:5000/hello:it
   script:
   - python /root/hello-world/temptest/test_hello.py
   only:
