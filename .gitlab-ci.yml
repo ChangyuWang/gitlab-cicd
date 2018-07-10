@@ -1,12 +1,14 @@
 stages:
   - test-ut
   - build
-  - test-ac
+  - test-it
+  - cleanup
   - package
   - pre-deploy
 
 testut:
   stage: test-ut
+  image: 192.168.185.78:5000/hello:ut
   script:
   - flake8 /root/hello-world/
   - yapf -r -d  /root/hello-world
@@ -14,35 +16,69 @@ testut:
   - pushes
   except:
   - master
+  tags:
+  - hello-world
 
 build-docker:
   stage: build
+  image: 192.168.185.78:5000/hello:build
   script:
-  - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME /root/hello-world
-  - docker push 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
+  - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
+  - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT /root/hello-world
+  - echo $CI_COMMIT && docker push 192.168.185.78:5000/hello:$CI_COMMIT
+  - docker run --name hello -p 6000:5000 -d 192.168.185.78:5000/hello:$CI_COMMIT
   only:
-  - branches
+  - pushes
   except:
   - master
+  tags:
+  - hello-world
 
-testac:
-  stage: test-ac
-  script: echo "actest ok"
+testit:
+  stage: test-it
+  image: 192.168.185.78:5000/hello:it
+  script:
+  - python /root/hello-world/temptest/test_hello.py
   only:
-  - branches
+  - pushes
   except:
   - master
+  tags:
+  - hello-world
+
+cleanup:
+  stage: cleanup
+  image: 192.168.185.78:5000/hello:build
+  script:
+  - docker stop hello && docker rm hello
+  only:
+  - pushes
+  except:
+  - master
+  tags:
+  - hello-world
+  when: always
 
 upload_package:
   stage: package
-  script: echo "push image to repository"
+  image: 192.168.185.78:5000/hello:build
+  script:
+  - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
+  - docker push 192.168.185.78:5000/hello:$CI_COMMIT
   only:
   - master
+  tags:
+  - hello-world
 
 pre-deploy:
   stage: pre-deploy
-  script: echo "deploy to pre-deploy"
+  image: 192.168.185.78:5000/hello:pre-deploy
+  script:
+  - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
+  - sed -i "s/image:\ .*/image:\ 192.168.185.78:5000/hello:$CI_COMMIT/g" /root/hello-world/hello-deploy.yml
+  - kubectl apply -f /root/hello-world/hello-deploy.yml
   only:
   - master
   when: manual
-
+  tags:
+  - hello-world
