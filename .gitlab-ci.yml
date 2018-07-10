@@ -25,8 +25,8 @@ build-docker:
   script:
   - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
   - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT /root/hello-world
-  - docker push 192.168.185.78:5000/hello:$CI_COMMIT
-  - docker rm hello && docker run --name hello -d 192.168.185.78:5000/hello:$CI_COMMIT
+  - echo $CI_COMMIT && docker push 192.168.185.78:5000/hello:$CI_COMMIT
+  - docker run --name hello -d 192.168.185.78:5000/hello:$CI_COMMIT
   only:
   - pushes
   except:
