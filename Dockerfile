@@ -1,5 +1,5 @@
 FROM  ubuntu:14.04
-#RUN apt-get update
+RUN apt-get update
 #RUN apt-get install -y apt-transport-https software-properties-common
 #RUN add-apt-repository \
 #   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
