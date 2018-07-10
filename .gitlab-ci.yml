@@ -29,7 +29,7 @@ build-docker:
   - branches
   except:
   - master
-    tags:
+  tags:
   - hello-world
   tags:
   - hello-world
