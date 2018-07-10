@@ -7,6 +7,7 @@ stages:
 
 testut:
   stage: test-ut
+  image: 192.168.185.78:5000/hello:ut
   script:
   - flake8 /root/hello-world/
   - yapf -r -d  /root/hello-world
@@ -14,11 +15,12 @@ testut:
   - pushes
   except:
   - master
-  variables:
-    CI_DEBUG_TRACE: "true"
+  tags:
+  - hello-world
 
 build-docker:
   stage: build
+  image: 192.168.185.78:5000/hello:build
   script:
   - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
   - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT /root/hello-world
@@ -27,20 +29,29 @@ build-docker:
   - branches
   except:
   - master
+    tags:
+  - hello-world
+  tags:
+  - hello-world
 
 testac:
   stage: test-ac
+  image: 192.168.185.78:5000/hello:ut
   script: echo "actest ok"
   only:
   - branches
   except:
   - master
+  tags:
+  - hello-world
 
 upload_package:
   stage: package
   script: echo "push image to repository"
   only:
   - master
+  tags:
+  - hello-world
 
 pre-deploy:
   stage: pre-deploy
@@ -48,4 +59,5 @@ pre-deploy:
   only:
   - master
   when: manual
-
+  tags:
+  - hello-world
