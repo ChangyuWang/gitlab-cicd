@@ -18,7 +18,7 @@ testut:
 build-docker:
   stage: build
   script:
-  - docker build 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
+  - docker build -t 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME /root/hello-world
   - docker push 192.168.185.78:5000/hello:$CI_COMMIT_REF_NAME
   only:
   - branches
