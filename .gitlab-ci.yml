@@ -76,7 +76,7 @@ pre-deploy:
   image: 192.168.185.78:5000/hello:pre-deploy
   script:
   - export CI_COMMIT=`cd $CI_PROJECT_DIR && git rev-parse --short HEAD`
-  - sed -i "s/image:*/image:192.168.185.78:5000\/hello:$CI_COMMIT/g" /root/hello-world/hello-deploy.yml
+  - sed -i "s/image:.*/image:192.168.185.78:5000\/hello:$CI_COMMIT/g" /root/hello-world/hello-deploy.yml
   - kubectl --kubeconfig /config  apply -f /root/hello-world/hello-deploy.yml
   only:
   - master
