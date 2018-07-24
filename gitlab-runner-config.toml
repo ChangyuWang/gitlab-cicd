@@ -1,0 +1,17 @@
+concurrent = 1
+check_interval = 0
+
+[[runners]]
+  name = "hello-world-pipeline"
+  url = "http://192.168.185.78/"
+  token = "7cf28845243fe7e2abbfdd53b4c078"
+  executor = "docker"
+  builds_dir = "/"
+  [runners.docker]
+    tls_verify = false
+    image = "hello:latest"
+    privileged = true
+    disable_cache = true
+    volumes = ["/var/run/docker.sock:/var/run/docker.sock:rw"]
+    shm_size = 0
+  [runners.cache]
