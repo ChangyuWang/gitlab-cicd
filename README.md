@@ -1,4 +1,2 @@
-1111
-123
-345
-333
+1. .gitlab-ci.yml describes ci/cd stages
+2. gitlab-runner-config.toml describe gitlab-runner which runs job
